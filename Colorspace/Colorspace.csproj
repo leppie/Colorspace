@@ -47,7 +47,6 @@
     <Compile Include="ColorDifference.cs" />
     <Compile Include="ColorScaling.cs" />
     <Compile Include="Spectral.Tables.cs" />
-    <Compile Include="CorrelatedColorTemperature.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="Lab.cs" />
     <Compile Include="Matrix.cs" />

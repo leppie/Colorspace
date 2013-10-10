@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cureos.Numerics;
+﻿using Cureos.Numerics;
+using System;
 
 namespace Colorspace
 {
@@ -61,7 +57,6 @@ namespace Colorspace
         return s[(i - start) / Interval];
       }
     }
-
   }
 
   public enum Locus
@@ -366,7 +361,43 @@ namespace Colorspace
       }
 
       return il;
-    } 
+    }
+
+    public static double ToCorrelatedColorTemperature(this XYZ c)
+    {
+      return c.ToClosestColorTemperature(Locus.Planckian, DeltaE.CIE1976);
+    }
+
+    public static double ToCorrelatedColorTemperature(this xyY c)
+    {
+      return c.ToXYZ().ToCorrelatedColorTemperature();
+    }
+
+    public static xyY ToIlumninant(this double cct)
+    {
+      http://www.brucelindbloom.com/Eqn_T_to_xy.html
+
+      double cct2 = cct * cct;
+      double cct3 = cct2 * cct;
+
+      double x;
+
+      if (cct > 7000)
+      {
+        x = -2.0064e9 / cct3 + 1.9018e6 / cct2 + 0.24748e3 / cct + 0.237040;
+      }
+      else
+      {
+        // wont work below 4000k, but all we got \o/
+        x = -4.6070e9 / cct3 + 2.9678e6 / cct2 + 0.09911e3 / cct + 0.244063;
+      }
+
+      double x2 = x * x;
+
+      double y = -3 * x2 + 2.87 * x - 0.275;
+
+      return xyY.FromWhitePoint(x, y);
+    }
   }
 }
 

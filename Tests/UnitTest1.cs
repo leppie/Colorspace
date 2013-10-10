@@ -11,6 +11,9 @@ namespace Tests
     [TestMethod]
     public void TestMethod1()
     {
+      // not really a unit test, but a test runner..
+      // I am not planning on testing floating point yet...
+
       //foreach (var mstr in Argyll.Spotread())
       //{
       //  Console.WriteLine(mstr);
