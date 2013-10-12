@@ -17,25 +17,6 @@ namespace Colorspace
       get { return (end - start) / (x.Length - 1);}
     }
 
-    /// <summary>
-    /// Gets the value for absolute index 
-    /// </summary>
-    /// <param name="i">the absolute index</param>
-    /// <returns>the value</returns>
-    internal XYZ this[int i]
-    {
-      get
-      {
-        var ri = (i - start)/Interval;
-        return new XYZ
-        {
-          X = x[ri],
-          Y = y[ri],
-          Z = z[ri],
-        };
-      }
-    }
-
     public override string ToString()
     {
       return Name;
@@ -54,19 +35,6 @@ namespace Colorspace
     int Interval
     {
       get { return (end - start) / (s.Length - 1); }
-    }
-
-    /// <summary>
-    /// Gets the value for absolute index 
-    /// </summary>
-    /// <param name="i">the absolute index</param>
-    /// <returns>the value</returns>
-    internal double this[int i]
-    {
-      get
-      {
-        return s[(i - start) / Interval];
-      }
     }
 
     public override string ToString()
