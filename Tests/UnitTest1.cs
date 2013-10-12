@@ -10,51 +10,16 @@ namespace Tests
   [TestClass]
   public class ColorTests
   {
-    IEnumerable<int> Foo()
-    {
-      yield return 1;
-      yield break;
-
-      // Dispose code?
-      var x = 1;
-      Console.WriteLine(x);
-    }
-
     [TestMethod]
     public void TestMethod1()
     {
       // not really a unit test, but a test runner..
       // I am not planning on testing floating point yet...
 
-      /*
-      int iii = 0;
-
-
       foreach (var mstr in Argyll.ContinuousRead())
       {
-        iii++;
-
-        if (iii > 5)
-        {
-          break;
-        }
+        break;
       }
-
-      foreach (var mstr in Argyll.ContinuousRead())
-      {
-        iii++;
-
-        if (iii > 10)
-        {
-          break;
-        }
-      }
-      */
-
-      
-      
-
-
 
       var wpr = Spectral.CalculateWhitePointD65();
 

@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace Colorspace.Sampling
 {
+  /// <summary>
+  /// Interaction with Argyll, mostly taylored for ColorMunki Display
+  /// </summary>
   public static class Argyll
   {
 #if DEBUG
@@ -20,7 +23,7 @@ namespace Colorspace.Sampling
     /// Gets or sets the path of the Argyll binaries
     /// </summary>
     /// <value>
-    /// The path.
+    /// The path to Argyll binaries
     /// </value>
     public static string BinPath { get; set;}
 
@@ -97,13 +100,12 @@ namespace Colorspace.Sampling
       };
     }
 
-
     /// <summary>
-    /// Continuously the sample XYZ values
+    /// Continuously sample XYZ values
     /// </summary>
     /// <returns>the XYZ value</returns>
     /// <exception cref="System.ArgumentNullException">BinPath;Please set Argyll.BinPath</exception>
-    // use with foreach, so it can be disposed
+    /// <remarks>Make sure to dispose the enumerator if not using foreach</remarks>
     // thanks @controlflow for this trick :D
     public static IEnumerable<XYZ> ContinuousRead()
     {
