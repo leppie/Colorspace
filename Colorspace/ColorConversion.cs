@@ -12,17 +12,28 @@ namespace Colorspace
 
     static readonly XYZ LAB_DEFAULT_WP = XYZ.D50_Whitepoint;
 
-    public static RGB ToRGB(this xyY c)
+    /// <summary>
+    /// Converts xyY to RGB
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="clip">true if clipping should be applied</param>
+    /// <returns>the converted color</returns>
+    public static RGB ToRGB(this xyY c, bool clip = false)
     {
-      return c.ToXYZ().ToRGB();
+      return c.ToXYZ().ToRGB(clip);
     }
 
+    /// <summary>
+    /// Converts RGB to xyY
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the converted color</returns>
     public static xyY ToxyY(this RGB c)
     {
       return c.ToXYZ().ToxyY();
     }
 
-    public static Lab ToUCS(this XYZ c)
+    internal static Lab ToUCS(this XYZ c)
     {
       var d = c.X + 15 * c.Y + 3 * c.Z;
       return new Lab
@@ -33,6 +44,11 @@ namespace Colorspace
       };
 	  }
     
+    /// <summary>
+    /// Normalizes Lab
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the normalized color</returns>
 #if DEBUG
     public static Lab Normalize(this Lab c, [CallerMemberName] string caller = "nowhere")
 #else
@@ -50,6 +66,11 @@ namespace Colorspace
       };
     }
 
+    /// <summary>
+    /// Converts XYZ to Lab using D50 whitepoint
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the converted color</returns>
     public static Lab ToLab(this XYZ c)
     {
       return ToLab(c, LAB_DEFAULT_WP);
@@ -60,13 +81,26 @@ namespace Colorspace
       return x > E ? Math.Pow(x, 1/3.0) : (K*x + 16) / 116;
     }
 
+    /// <summary>
+    /// Converts Lab to XYZ using D50 whitepoint
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the converted color</returns>
     public static XYZ ToXYZ(this Lab c)
     {
       return ToXYZ(c, LAB_DEFAULT_WP);
     }
 
+    /// <summary>
+    /// Converts Lab to XYZ using a given whitepoint
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="wp">the whitepoint</param>
+    /// <returns>the converted color</returns>
     public static XYZ ToXYZ(this Lab c, XYZ wp)
     {
+      http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html
+
       double fy = (c.L + 16) / 116;
       double fz = fy - c.b / 200;
       double fx = c.a / 500 + fy;
@@ -86,6 +120,12 @@ namespace Colorspace
       };
     }
 
+    /// <summary>
+    /// Converts XYZ to Lab using a given whitepoint
+    /// </summary>
+    /// <param name="C">the color</param>
+    /// <param name="wp">the whitepoint</param>
+    /// <returns>the converted color</returns>
     public static Lab ToLab(this XYZ C, XYZ wp)
     {
       http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
@@ -109,6 +149,11 @@ namespace Colorspace
       };
     }
 
+    /// <summary>
+    /// Converts xyY to XYZ
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the converted color</returns>
     public static XYZ ToXYZ(this xyY c)
     {
       if (c.Y == 0)
@@ -123,6 +168,11 @@ namespace Colorspace
       };
     }
 
+    /// <summary>
+    /// Converts XYZ to xyY
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the converted color</returns>
     public static xyY ToxyY(this XYZ c)
     {
       var d = c.X + c.Y + c.Z;
@@ -138,6 +188,12 @@ namespace Colorspace
       };
     }
 
+    /// <summary>
+    /// Converts XYZ to RGB
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="clip">true if clipping to the output should be applied</param>
+    /// <returns>the converted color</returns>
     public static RGB ToRGB(this XYZ c, bool clip = false)
     {
       http://www.brucelindbloom.com/Eqn_XYZ_to_RGB.html
@@ -156,7 +212,6 @@ namespace Colorspace
 
       RGB rgbs = (Vector3)c * M; 
 
-      // no clipping
       rgbs = sRGB.Compand(rgbs);
 
       if (clip)
@@ -167,6 +222,11 @@ namespace Colorspace
       return rgbs;
     }
 
+    /// <summary>
+    /// Convertes RGB to XYZ
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the converted color</returns>
     public static XYZ ToXYZ(this RGB c)
     {
       http://www.brucelindbloom.com/Eqn_RGB_to_XYZ.html
@@ -206,6 +266,11 @@ namespace Colorspace
       };
     }
 
+    /// <summary>
+    /// Normalizes XYZ
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the normalized color</returns>
 #if DEBUG
     public static XYZ Normalize(this XYZ c, [CallerMemberName] string caller = "")
 #else

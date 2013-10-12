@@ -31,7 +31,7 @@ namespace Cureos.Numerics
     /// <summary>
     /// Representation of supported exit statuses from the Bobyqa algorithm.
     /// </summary>
-    public enum BobyqaExitStatus
+    enum BobyqaExitStatus
     {
         TooFewVariables,
         VariableBoundsArrayTooShort,
@@ -51,7 +51,7 @@ namespace Cureos.Numerics
     /// of the change to the second derivative of the model, beginning with the zero matrix. 
     /// The values of the variables are constrained by upper and lower bounds.
     /// </summary>
-    public static class Bobyqa
+    static class Bobyqa
     {
         #region FIELDS
 

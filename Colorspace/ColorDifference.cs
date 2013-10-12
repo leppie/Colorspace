@@ -2,6 +2,9 @@
 
 namespace Colorspace
 {
+  /// <summary>
+  /// The Delta E calculation
+  /// </summary>
   public enum DeltaE
   {
     CIE1976,
