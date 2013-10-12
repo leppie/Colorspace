@@ -12,7 +12,7 @@ namespace Colorspace
     CIE2000,
   }
 
-  public static class Difference
+  public static class ColorDifference
   {
     internal const DeltaE CALC_DEFAULT = DeltaE.CIE2000;
 
@@ -36,7 +36,7 @@ namespace Colorspace
     }
 
     /// <summary>
-    /// Calculates the difference to white point.
+    /// Calculates the difference to D50 white point.
     /// </summary>
     /// <param name="c">the ccolor</param>
     /// <param name="calc">The calculation to use</param>

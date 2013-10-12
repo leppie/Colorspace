@@ -42,12 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bobyqa.cs" />
-    <Compile Include="ColorConversion.cs" />
-    <Compile Include="ColorDifference.cs" />
-    <Compile Include="ColorScaling.cs" />
+    <Compile Include="Conversion.cs" />
+    <Compile Include="Difference.cs" />
+    <Compile Include="Scaling.cs" />
     <Compile Include="Sampling\Argyll.cs" />
     <Compile Include="Spectral.Tables.cs" />
-    <Compile Include="Sampling\CsvWriter.cs" />
     <Compile Include="Lab.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Sampling\Measure.cs" />

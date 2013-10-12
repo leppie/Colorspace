@@ -255,7 +255,7 @@ namespace Colorspace
     /// <param name="loc">The locus, either daylight or planckian</param>
     /// <param name="calc">The color difference calculation to use, either CIE2000 or else it is based on UCS1960 using CIE1976</param>
     /// <returns>the color temperature</returns>
-    public static double ToClosestColorTemperature(this XYZ xyz, Locus loc = Locus.Daylight, DeltaE calc = Difference.CALC_DEFAULT)
+    public static double ToClosestColorTemperature(this XYZ xyz, Locus loc = Locus.Daylight, DeltaE calc = ColorDifference.CALC_DEFAULT)
     {
       double de;
       return ToClosestColorTemperature(xyz, out de, loc, calc);
@@ -269,7 +269,7 @@ namespace Colorspace
     /// <param name="loc">The locus, either daylight or planckian</param>
     /// <param name="calc">The color difference calculation to use, either CIE2000 or else it is based on UCS1960 using CIE1976</param>
     /// <returns>the color temperature</returns>
-    public static double ToClosestColorTemperature(this XYZ xyz, out double de, Locus loc = Locus.Daylight, DeltaE calc = Difference.CALC_DEFAULT)
+    public static double ToClosestColorTemperature(this XYZ xyz, out double de, Locus loc = Locus.Daylight, DeltaE calc = ColorDifference.CALC_DEFAULT)
     {
       XYZ locuswp;
       return ToClosestColorTemperature(xyz, out de, out locuswp, loc, calc);
@@ -284,7 +284,7 @@ namespace Colorspace
     /// <param name="loc">The locus, either daylight or planckian</param>
     /// <param name="calc">The color difference calculation to use, either CIE2000 or else it is based on UCS1960 using CIE1976</param>
     /// <returns>the color temperature</returns>
-    public static double ToClosestColorTemperature(this XYZ xyz, out double de, out XYZ locuswp, Locus loc = Locus.Daylight, DeltaE calc = Difference.CALC_DEFAULT)
+    public static double ToClosestColorTemperature(this XYZ xyz, out double de, out XYZ locuswp, Locus loc = Locus.Daylight, DeltaE calc = ColorDifference.CALC_DEFAULT)
     {
       xyz = xyz.Normalize();
 
