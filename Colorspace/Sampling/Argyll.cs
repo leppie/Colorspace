@@ -32,7 +32,7 @@ namespace Colorspace.Sampling
     /// </summary>
     /// <returns></returns>
     /// <exception cref="System.ArgumentNullException">BinPath;Please set Argyll.BinPath</exception>
-    public static Measure GetMeasure()
+    public static Measure GetMeasure(int displaynr = 1, Display sc = Display.LCD_CCFL)
     {
       if (BinPath == null)
       {
@@ -46,7 +46,7 @@ namespace Colorspace.Sampling
         StartInfo = new ProcessStartInfo
         {
           FileName = Path.Combine(BinPath, "dispcal.exe"),
-          Arguments = "-d2 -y2 -Yp -r",
+          Arguments = string.Format( "-d{0} -y{1} -Yp -r", displaynr, (char) sc) ,
           CreateNoWindow = true,
           RedirectStandardOutput = true,
           UseShellExecute = false
@@ -107,7 +107,7 @@ namespace Colorspace.Sampling
     /// <exception cref="System.ArgumentNullException">BinPath;Please set Argyll.BinPath</exception>
     /// <remarks>Make sure to dispose the enumerator if not using foreach</remarks>
     // thanks @controlflow for this trick :D
-    public static IEnumerable<XYZ> ContinuousRead()
+    public static IEnumerable<XYZ> ContinuousRead(Display sc = Display.LCD_CCFL)
     {
       if (BinPath == null)
       {
@@ -120,7 +120,7 @@ namespace Colorspace.Sampling
         {
           // this is a modified version of spotread to do continuous readings
           FileName = Path.Combine(BinPath, "contread.exe"),
-          Arguments = "-y2", // screen type (CCFL LCD in this case) y5 for White LED
+          Arguments = string.Format("-y{0}", (char)sc),
           CreateNoWindow = true,
           RedirectStandardOutput = true,
           RedirectStandardInput = true,

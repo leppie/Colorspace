@@ -46,6 +46,7 @@
     <Compile Include="Difference.cs" />
     <Compile Include="Illuminant.cs" />
     <Compile Include="Observer.cs" />
+    <Compile Include="Sampling\Display.cs" />
     <Compile Include="Scaling.cs" />
     <Compile Include="Sampling\Argyll.cs" />
     <Compile Include="Spectral.Tables.cs" />

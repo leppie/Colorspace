@@ -16,10 +16,19 @@ namespace Tests
       // not really a unit test, but a test runner..
       // I am not planning on testing floating point yet...
 
+      var xxx = Argyll.GetMeasure(2);
+      xxx = Argyll.GetMeasure(2, Display.LCD_White_LED);
+
       foreach (var mstr in Argyll.ContinuousRead())
       {
         break;
       }
+
+      foreach (var mstr in Argyll.ContinuousRead(Display.LCD_White_LED))
+      {
+        break;
+      }
+
 
       var wpr = Spectral.CalculateWhitePointD65();
 
