@@ -4,46 +4,6 @@ using System;
 namespace Colorspace
 {
   /// <summary>
-  /// Represents an observer
-  /// </summary>
-  public class Observer
-  {
-    internal string Name;
-    internal int start, end;
-    internal double[] x, y, z;
-
-    int Interval
-    {
-      get { return (end - start) / (x.Length - 1);}
-    }
-
-    public override string ToString()
-    {
-      return Name;
-    }
-  }
-
-  /// <summary>
-  /// Represents an illuminant
-  /// </summary>
-  public class Illuminant
-  {
-    internal string Name;
-    internal int start, end;
-    internal double[] s;
-
-    int Interval
-    {
-      get { return (end - start) / (s.Length - 1); }
-    }
-
-    public override string ToString()
-    {
-      return Name;
-    }
-  }
-
-  /// <summary>
   /// The whitepoint locus
   /// </summary>
   public enum Locus
