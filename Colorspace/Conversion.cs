@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Colorspace
 {
-  public static class ColorConversion
+  public static class Conversion
   {
     const double E = 216.0 / 24389;
     const double K = 24389.0 / 27;

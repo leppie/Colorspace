@@ -12,7 +12,7 @@ namespace Colorspace
     CIE2000,
   }
 
-  public static class ColorDifference
+  public static class Difference
   {
     internal const DeltaE CALC_DEFAULT = DeltaE.CIE2000;
 

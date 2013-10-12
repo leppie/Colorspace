@@ -1,6 +1,6 @@
 ﻿namespace Colorspace
 {
-  public static class ColorScaling
+  public static class Scaling
   {
     //http://www.brucelindbloom.com/Eqn_RGB_XYZ_Matrix.html
 
