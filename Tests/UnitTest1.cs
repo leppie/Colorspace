@@ -65,14 +65,14 @@ namespace Tests
 
 
       //6894K/6983K
-      var c = xyY.FromWhitePoint(0.3073, 0.3209);
+      var c = new xyY(0.3073, 0.3209);
       var xyz = c.ToXYZ();
       var rgb = c.ToRGB();
       var t = c.ToClosestCorrelatedColorTemperature();
       var XYZ1 = rgb.ToXYZ();
 
       //6504K
-      c = xyY.FromWhitePoint(0.312713, 0.329016);
+      c = new xyY(0.312713, 0.329016);
       xyz = c.ToXYZ();
       rgb = c.ToRGB();
       t = c.ToClosestCorrelatedColorTemperature();
@@ -82,7 +82,7 @@ namespace Tests
       c = xyz.ToxyY();
 
       //6504K
-      c = xyY.FromWhitePoint(0.31271, 0.32902);
+      c = new xyY(0.31271, 0.32902);
       c = new xyY { x = 0.3127,              y = 0.3290,              Y = 1.000000 }; // close
       c = new xyY { x = 0.31273,             y = 0.32902,             Y = 1.000000 }; // close
       c = new xyY { x = 0.312727,            y = 0.329023,            Y = 1.000000 }; // close
@@ -97,7 +97,7 @@ namespace Tests
       XYZ1 = rgb.ToXYZ();
 
       //6504K
-      c = xyY.FromWhitePoint(0.3127, 0.3290);
+      c = new xyY(0.3127, 0.3290);
 
       c = new XYZ {X = 0.950543, Y = 1.0, Z = 1.089303}.ToxyY();
       xyz = c.ToXYZ();
@@ -106,7 +106,7 @@ namespace Tests
       XYZ1 = rgb.ToXYZ();
 
       //6504K
-      c = xyY.FromWhitePoint(0.312699, 0.329001);
+      c = new xyY(0.312699, 0.329001);
 
       c = new XYZ {X = 0.9504700, Y = 1, Z = 1.0888300}.ToxyY();
 
@@ -116,7 +116,7 @@ namespace Tests
       XYZ1 = rgb.ToXYZ();
 
       //6429K/6382K
-      c = xyY.FromWhitePoint(0.3137, 0.3318);
+      c = new xyY(0.3137, 0.3318);
       xyz = c.ToXYZ();
       rgb = c.ToRGB();
       t = c.ToClosestCorrelatedColorTemperature();

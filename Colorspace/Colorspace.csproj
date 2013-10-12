@@ -44,6 +44,8 @@
     <Compile Include="Bobyqa.cs" />
     <Compile Include="Conversion.cs" />
     <Compile Include="Difference.cs" />
+    <Compile Include="Illuminant.cs" />
+    <Compile Include="Observer.cs" />
     <Compile Include="Scaling.cs" />
     <Compile Include="Sampling\Argyll.cs" />
     <Compile Include="Spectral.Tables.cs" />

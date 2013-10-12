@@ -32,17 +32,6 @@ namespace Colorspace
     {
       return c.ToXYZ().ToxyY();
     }
-
-    internal static Lab ToUCS(this XYZ c)
-    {
-      var d = c.X + 15 * c.Y + 3 * c.Z;
-      return new Lab
-      {
-        L = c.Y,
-        a = (4 * c.X) / d,
-        b = (6 * c.Y) / d
-      };
-	  }
     
     /// <summary>
     /// Normalizes Lab

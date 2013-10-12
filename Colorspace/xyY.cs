@@ -9,15 +9,11 @@ namespace Colorspace
   {
     public double x, y, Y;
 
-    [Obsolete("Should be private/internal")]
-    public static xyY FromWhitePoint(double x, double y)
+    public xyY(double x, double y, double Y = 1)
     {
-      return new xyY
-      {
-        x = x,
-        y = y,
-        Y = 100
-      };
+      this.x = x;
+      this.y = y;
+      this.Y = Y;
     }
 
     public double z

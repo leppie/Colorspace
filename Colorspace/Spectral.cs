@@ -146,6 +146,17 @@ namespace Colorspace
       return locus;
     }
 
+    static Lab ToUCS(this XYZ c)
+    {
+      var d = c.X + 15 * c.Y + 3 * c.Z;
+      return new Lab
+      {
+        L = c.Y,
+        a = (4 * c.X) / d,
+        b = (6 * c.Y) / d
+      };
+    }
+
     /// <summary>
     /// Gets the closest visual daylight color temperature to a color
     /// </summary>
@@ -238,8 +249,7 @@ namespace Colorspace
       return x[0];
     }
 
-    [Obsolete("should be private/internal")]
-    public static XYZ CalculateWhitePointD65()
+    internal static XYZ CalculateWhitePointD65()
     {
       return CalculateWhitePoint(D65_1nm, CIE1931_2deg_1nm);
     }
@@ -375,8 +385,8 @@ namespace Colorspace
       return c.ToXYZ().ToClosestCorrelatedColorTemperature();
     }
 
-    [Obsolete("Should be private/internal")]
-    public static xyY ToIluminant(this double cct)
+    [Obsolete("Remove from test")]
+    internal static xyY ToIluminant(this double cct)
     {
       http://www.brucelindbloom.com/Eqn_T_to_xy.html
 
@@ -387,7 +397,7 @@ namespace Colorspace
 
       if (cct > 7000)
       {
-        x = -2.0064e9 / cct3 + 1.9018e6 / cct2 + 0.24748e3 / cct + 0.237040;
+        x = -2.0064e9 / cct3 + 1.9018e6 / cct2 + 0.24748e3 / cct + 0.23704;
       }
       else
       {
@@ -398,7 +408,7 @@ namespace Colorspace
       double x2 = x * x;
       double y = -3 * x2 + 2.87 * x - 0.275;
 
-      return xyY.FromWhitePoint(x, y);
+      return new xyY { x = x, y = y, Y = 1 };
     }
   }
 }
