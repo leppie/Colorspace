@@ -35,11 +35,36 @@ namespace Colorspace
       return d * d;
     }
 
+    /// <summary>
+    /// Calculates the difference to white point.
+    /// </summary>
+    /// <param name="c">the ccolor</param>
+    /// <param name="calc">The calculation to use</param>
+    /// <returns>the difference to the whitepoint</returns>
     public static double DifferenceToWhitePoint(this XYZ c, DeltaE calc = CALC_DEFAULT)
     {
       return DifferenceToWhitePoint(c.ToLab());
     }
 
+    /// <summary>
+    /// Calculates the difference to white point.
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="wp">the whitepoint</param>
+    /// <param name="calc">The calculation to use</param>
+    /// <returns>the difference to the whitepoint</returns>
+    public static double DifferenceToWhitePoint(this XYZ c, XYZ wp, DeltaE calc = CALC_DEFAULT)
+    {
+      return DifferenceToWhitePoint(c.ToLab(wp));
+    }
+
+    /// <summary>
+    /// Calculates the difference to white point.
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="calc">the calculation to use</param>
+    /// <returns>the difference to the whitepoint</returns>
+    /// <exception cref="System.ArgumentOutOfRangeException">calc;Not a valid value for DeltaE</exception>
     public static double DifferenceToWhitePoint(this Lab c, DeltaE calc = CALC_DEFAULT)
     {
       // same as Difference(c, Lab.WhitePoint)
@@ -77,16 +102,39 @@ namespace Colorspace
       throw new ArgumentOutOfRangeException("calc", "Not a valid value for DeltaE");
     }
 
+    /// <summary>
+    /// Calculates the difference between 2 colors.
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="r">the reference color</param>
+    /// <param name="calc">the calculation to use</param>
+    /// <returns>the difference between the colors</returns>
     public static double Difference(this XYZ c, XYZ r, DeltaE calc = CALC_DEFAULT)
     {
       return Difference(c.ToLab(), r.ToLab(), calc);
     }
 
+    /// <summary>
+    /// Calculates the difference between 2 colors.
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="r">the reference color</param>
+    /// <param name="wp">the whitepoint</param>
+    /// <param name="calc">the calculation to use</param>
+    /// <returns>the difference between the colors</returns>
     public static double Difference(this XYZ c, XYZ r, XYZ wp, DeltaE calc = CALC_DEFAULT)
     {
       return Difference(c.ToLab(wp), r.ToLab(wp), calc);
     }
 
+    /// <summary>
+    /// Calculates the difference between 2 colors.
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <param name="r">the reference color</param>
+    /// <param name="calc">the calculation to use</param>
+    /// <returns>the difference between the colors</returns>
+    /// <exception cref="System.ArgumentOutOfRangeException">calc;Not a valid value for DeltaE</exception>
     public static double Difference(this Lab c, Lab r, DeltaE calc = CALC_DEFAULT)
     {
       c = c.Normalize();
