@@ -2,6 +2,8 @@
 {
   public static class ColorScaling
   {
+    //http://www.brucelindbloom.com/Eqn_RGB_XYZ_Matrix.html
+
     public static readonly Matrix3x3 D65_D50_Bradford = new double[,]
         {
           {1.0478112, 0.0228866, -0.0501270},

@@ -69,6 +69,7 @@ namespace Colorspace
 
     public static implicit operator Vector3(XYZ c)
     {
+      c = c.Normalize();
       return new double[] { c.X, c.Y, c.Z };
     }
 
@@ -79,6 +80,7 @@ namespace Colorspace
 
     public static implicit operator Vector3(RGB c)
     {
+      //c = c.Normalize();
       return new double[] { c.R, c.G, c.B };
     }
 
@@ -89,6 +91,7 @@ namespace Colorspace
 
     public static implicit operator Vector3(Lab c)
     {
+      c = c.Normalize();
       return new double[] { c.L, c.a, c.b };
     }
 

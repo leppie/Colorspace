@@ -3,6 +3,9 @@ using System;
 
 namespace Colorspace
 {
+  /// <summary>
+  /// Represents an observer
+  /// </summary>
   public class Observer
   {
     public string Name;
@@ -19,6 +22,11 @@ namespace Colorspace
       get { return (end - start)/Interval + 1; }
     }
 
+    /// <summary>
+    /// Gets the value for absolute index 
+    /// </summary>
+    /// <param name="i">the absolute index</param>
+    /// <returns>the value</returns>
     public XYZ this[int i]
     {
       get
@@ -32,8 +40,16 @@ namespace Colorspace
         };
       }
     }
+
+    public override string ToString()
+    {
+      return Name;
+    }
   }
 
+  /// <summary>
+  /// Represents an illuminant
+  /// </summary>
   public class Illuminant
   {
     public string Name;
@@ -50,12 +66,22 @@ namespace Colorspace
       get { return (end - start) / Interval + 1; }
     }
 
+    /// <summary>
+    /// Gets the value for absolute index 
+    /// </summary>
+    /// <param name="i">the absolute index</param>
+    /// <returns>the value</returns>
     public double this[int i]
     {
       get
       {
         return s[(i - start) / Interval];
       }
+    }
+
+    public override string ToString()
+    {
+      return Name;
     }
   }
 
@@ -67,10 +93,13 @@ namespace Colorspace
 
   public  static partial class Spectral
   {
-    static readonly double[] s0_1nm = InterpolateLinear(s0_5nm, 4, x => Math.Round(x, 5));
-    static readonly double[] s1_1nm = InterpolateLinear(s1_5nm, 4, x => Math.Round(x, 5));
-    static readonly double[] s2_1nm = InterpolateLinear(s2_5nm, 4, x => Math.Round(x, 5));
+    static readonly double[] s0_1nm = InterpolateLinear(s0_5nm, 4);
+    static readonly double[] s1_1nm = InterpolateLinear(s1_5nm, 4);
+    static readonly double[] s2_1nm = InterpolateLinear(s2_5nm, 4);
 
+    /// <summary>
+    /// The D65 illuminant at 1nm intervals
+    /// </summary>
     public static readonly Illuminant D65_1nm = new Illuminant
     {
       Name = "D65",
@@ -79,6 +108,9 @@ namespace Colorspace
       s = InterpolateLinear(d65_10nm, 9),
     };
 
+    /// <summary>
+    /// The CIE1931_2deg observer at 1nm intervals
+    /// </summary>
     public static readonly Observer CIE1931_2deg_1nm = new Observer
     {
       Name = "CIE 1931 2deg",
@@ -119,7 +151,14 @@ namespace Colorspace
       return r;
     }
     
+    /// <summary>
+    /// Gives the daylight locus with a CIE1931_2deg observer at 10K intervals.
+    /// </summary>
     public static readonly Observer DaylightLocus = CalculateDaylightLocus(CIE1931_2deg_1nm);
+
+    /// <summary>
+    /// Gives the planckian locus with a CIE1931_2deg observer at 10K intervals.
+    /// </summary>
     public static readonly Observer PlanckianLocus = CalculatePlanckianLocus(CIE1931_2deg_1nm);
 
     static readonly Observer[] locii = 
@@ -192,28 +231,62 @@ namespace Colorspace
       return locus;
     }
 
+    /// <summary>
+    /// Gets the closest visual daylight color temperature to a color
+    /// </summary>
+    /// <param name="xyz">The color in XYZ</param>
+    /// <returns>the color temperature</returns>
     public static double ToClosestDaylightColorTemperature(this XYZ xyz)
     {
       return ToClosestColorTemperature(xyz, Locus.Daylight);
     }
 
+    /// <summary>
+    /// Gets the closest visual planckian color temperature to a color
+    /// </summary>
+    /// <param name="xyz">The color in XYZ</param>
+    /// <returns>the color temperature</returns>
     public static double ToClosestPlanckianColorTemperature(this XYZ xyz)
     {
       return ToClosestColorTemperature(xyz, Locus.Planckian);
     }
-    
+
+    /// <summary>
+    /// Gets the closest color temperature to a color
+    /// </summary>
+    /// <param name="xyz">The color in XYZ</param>
+    /// <param name="loc">The locus, either daylight or planckian</param>
+    /// <param name="calc">The color difference calculation to use, either CIE2000 or else it is based on UCS1960 using CIE1976</param>
+    /// <returns>the color temperature</returns>
     public static double ToClosestColorTemperature(this XYZ xyz, Locus loc = Locus.Daylight, DeltaE calc = ColorDifference.CALC_DEFAULT)
     {
       double de;
       return ToClosestColorTemperature(xyz, out de, loc, calc);
     }
 
+    /// <summary>
+    /// Gets the closest color temperature to a color
+    /// </summary>
+    /// <param name="xyz">The color in XYZ</param>
+    /// <param name="de">returns the Delta E error</param>
+    /// <param name="loc">The locus, either daylight or planckian</param>
+    /// <param name="calc">The color difference calculation to use, either CIE2000 or else it is based on UCS1960 using CIE1976</param>
+    /// <returns>the color temperature</returns>
     public static double ToClosestColorTemperature(this XYZ xyz, out double de, Locus loc = Locus.Daylight, DeltaE calc = ColorDifference.CALC_DEFAULT)
     {
       XYZ locuswp;
       return ToClosestColorTemperature(xyz, out de, out locuswp, loc, calc);
     }
 
+    /// <summary>
+    /// Gets the closest color temperature to a color
+    /// </summary>
+    /// <param name="xyz">The color in XYZ</param>
+    /// <param name="de">returns the Delta E error</param>
+    /// <param name="locuswp">return the white point of the closest color temperature</param>
+    /// <param name="loc">The locus, either daylight or planckian</param>
+    /// <param name="calc">The color difference calculation to use, either CIE2000 or else it is based on UCS1960 using CIE1976</param>
+    /// <returns>the color temperature</returns>
     public static double ToClosestColorTemperature(this XYZ xyz, out double de, out XYZ locuswp, Locus loc = Locus.Daylight, DeltaE calc = ColorDifference.CALC_DEFAULT)
     {
       xyz = xyz.Normalize();
@@ -247,27 +320,7 @@ namespace Colorspace
       de = ber;
       locuswp = guess;
 
-
       return x[0];
-    }
-
-    public static XYZ SpectrumValue(this Observer ob, double wl)
-    {
-      var n = (ob.end - ob.start) / ob.Interval;
-      var f = (wl - ob.start) / ob.Interval;
-      int i = (int) Math.Floor(f);
-
-      if (i < 0) i = 0;
-      if (i > n - 1) i = n - 1;
-
-      var w = f - i;
-
-      return new XYZ
-      {
-        X = (1 - w) * ob.x[i] + w * ob.x[i + 1],
-        Y = (1 - w) * ob.y[i] + w * ob.y[i + 1],
-        Z = (1 - w) * ob.z[i] + w * ob.z[i + 1],
-      };
     }
 
     public static XYZ CalculateWhitePointD65()
@@ -307,9 +360,16 @@ namespace Colorspace
       return xyz.Normalize();
     }
 
+    /// <summary>
+    /// Gets the daylight illuminant for a given temperature at 1nm intervals
+    /// </summary>
+    /// <param name="ct">color temperature</param>
+    /// <returns>the illuminant</returns>
     public static Illuminant Daylight(double ct)
     {
-      var il = ct.ToIlumninant();
+#pragma warning disable 618
+      var il = ct.ToIluminant();
+#pragma warning restore 618
       var sl = s0_1nm.Length;
       
       double xd = il.x;
@@ -331,6 +391,11 @@ namespace Colorspace
       return new Illuminant { Name = string.Format("D({0:f1}K)", ct), s = spec, start = 300, end = 830 };
     }
 
+    /// <summary>
+    /// Gets the plankian illuminant for a given temperature at 1nm intervals
+    /// </summary>
+    /// <param name="ct">color temperature</param>
+    /// <returns>the illuminant</returns>
     public static Illuminant Planckian(double ct)
     {
       if (ct < 1.0 || ct > 1e6)	/* set some arbitrary limits */
@@ -363,17 +428,18 @@ namespace Colorspace
       return il;
     }
 
-    public static double ToCorrelatedColorTemperature(this XYZ c)
+    public static double ToClosestCorrelatedColorTemperature(this XYZ c)
     {
       return c.ToClosestColorTemperature(Locus.Planckian, DeltaE.CIE1976);
     }
 
-    public static double ToCorrelatedColorTemperature(this xyY c)
+    public static double ToClosestCorrelatedColorTemperature(this xyY c)
     {
-      return c.ToXYZ().ToCorrelatedColorTemperature();
+      return c.ToXYZ().ToClosestCorrelatedColorTemperature();
     }
 
-    public static xyY ToIlumninant(this double cct)
+    [Obsolete("Should be private")]
+    public static xyY ToIluminant(this double cct)
     {
       http://www.brucelindbloom.com/Eqn_T_to_xy.html
 
@@ -393,7 +459,6 @@ namespace Colorspace
       }
 
       double x2 = x * x;
-
       double y = -3 * x2 + 2.87 * x - 0.275;
 
       return xyY.FromWhitePoint(x, y);

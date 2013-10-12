@@ -2,6 +2,8 @@
 {
   public struct Lab
   {
+    // L    [0,   100]
+    // a,b  [-128,127]
     public double L, a, b;
 
     public static readonly Lab WhitePoint = new Lab {L = 100 };

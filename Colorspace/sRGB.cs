@@ -7,7 +7,8 @@ namespace Colorspace
     public static readonly xyY Red = new xyY { x = 0.6400, y = 0.3300, Y = 0.2126 };
     public static readonly xyY Green = new xyY { x = 0.3000, y = 0.6000, Y = 0.7153 };
     public static readonly xyY Blue = new xyY { x = 0.1500, y = 0.0600, Y = 0.0721 };
-    public static readonly xyY WhitePoint = new xyY { x = 0.3127, y = 0.3290, Y = 1.0000 };
+
+    public static readonly xyY WhitePoint = XYZ.D65_Whitepoint.ToxyY();
 
     public static RGB Compand(RGB c)
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Colorspace
+namespace Colorspace.Sampling
 {
   public static class CsvWriter
   {

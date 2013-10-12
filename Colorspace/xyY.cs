@@ -10,8 +10,13 @@
       {
         x = x,
         y = y,
-        Y = 1 - x - y
+        Y = 100
       };
+    }
+
+    public double z
+    {
+      get { return 1 - x - y; }
     }
 
     public override string ToString()

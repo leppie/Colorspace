@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Colorspace
+namespace Colorspace.Sampling
 {
   public static class Argyll
   {
@@ -86,10 +86,11 @@ namespace Colorspace
       };
     }
 
-    // runs forever.... TODO: make it stop
-    public static IEnumerable<XYZ> Spotread()
+    // use with foreach, so it can be disposed
+    // thanks @controlflow for this trick :D
+    public static IEnumerable<XYZ> ContinuousRead()
     {
-      using (Process spotread = new Process
+      var t = new Process
       {
         StartInfo = new ProcessStartInfo
         {
@@ -98,30 +99,58 @@ namespace Colorspace
           Arguments = "-y2", // screen type (CCFL LCD in this case) y5 for White LED
           CreateNoWindow = true,
           RedirectStandardOutput = true,
+          RedirectStandardInput = true,
           UseShellExecute = false,
         }
-      })
+      };
+
+      try
       {
-        spotread.Start();
+        t.Start();
+
+        Debug.Print("contread process started");
 
         while (true)
         {
-          var v = spotread.StandardOutput.ReadLine();
+          var v = t.StandardOutput.ReadLine();
 
           if (string.IsNullOrEmpty(v))
           {
             yield break;
           }
 
-          var values = v.Split(' ').Select(double.Parse).ToArray();
+          XYZ current;
 
-          yield return new XYZ
+          try
           {
-            X = values[0],
-            Y = values[1],
-            Z = values[2]
-          };
+            var values = v.Split(' ').Select(double.Parse).ToArray();
+
+            current = new XYZ
+            {
+              X = values[0],
+              Y = values[1],
+              Z = values[2]
+            };
+
+            Debug.Print("got sample: {0}", current);
+          }
+          catch
+          {
+            Debug.Print("unparseable data received: {0}", v);
+            yield break;
+          }
+
+          yield return current;
         }
+      }
+      finally
+      {
+        if (!t.HasExited)
+        {
+          t.Kill();
+          Debug.Print("contread process killed");
+        }
+        t.Dispose();
       }
     }
   }

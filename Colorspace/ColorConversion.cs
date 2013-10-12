@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Colorspace
 {
-
   public static class ColorConversion
   {
     const double E = 216.0 / 24389;
     const double K = 24389.0 / 27;
     const double KE = 216.0 / 27;
 
-    static readonly XYZ LAB_DEFAULT_WP = XYZ.D50;
+    static readonly XYZ LAB_DEFAULT_WP = XYZ.D50_Whitepoint;
 
     public static RGB ToRGB(this xyY c)
     {
@@ -23,17 +24,24 @@ namespace Colorspace
 
     public static Lab ToUCS(this XYZ c)
     {
-      var d = c.X + 15.0 * c.Y + 3.0 * c.Z;
+      var d = c.X + 15 * c.Y + 3 * c.Z;
       return new Lab
       {
         L = c.Y,
-        a = (4.0 * c.X) / d,
-        b = (6.0 * c.Y) / d
+        a = (4 * c.X) / d,
+        b = (6 * c.Y) / d
       };
 	  }
     
+#if DEBUG
+    public static Lab Normalize(this Lab c, [CallerMemberName] string caller = "nowhere")
+#else
     public static Lab Normalize(this Lab c)
+#endif
     {
+#if DEBUG
+      Debug.Print("normalizing: {0} called from: {1}", c, caller);
+#endif
       return new Lab
       {
         L = 100,
@@ -120,12 +128,7 @@ namespace Colorspace
       var d = c.X + c.Y + c.Z;
       if (d < 1e-9)
       {
-        return new xyY
-        {
-          x = 0,
-          y = 0,
-          Y = 0
-        };
+        return new xyY();
       }
       return new xyY
       {
@@ -135,9 +138,14 @@ namespace Colorspace
       };
     }
 
-    public static RGB ToRGB(this XYZ c)
+    public static RGB ToRGB(this XYZ c, bool clip = false)
     {
       http://www.brucelindbloom.com/Eqn_XYZ_to_RGB.html
+
+      if (c.Equals(default(XYZ))) // completely black
+      {
+        return new RGB();
+      }
 
       var M = new double[,]
       {
@@ -151,12 +159,22 @@ namespace Colorspace
       // no clipping
       rgbs = sRGB.Compand(rgbs);
 
+      if (clip)
+      {
+        rgbs = Clip(rgbs);
+      }
+
       return rgbs;
     }
 
     public static XYZ ToXYZ(this RGB c)
     {
       http://www.brucelindbloom.com/Eqn_RGB_to_XYZ.html
+
+      if (c.Equals(default(RGB)))
+      {
+        return new XYZ();
+      }
 
       var M = new double[,]
       {
@@ -188,8 +206,15 @@ namespace Colorspace
       };
     }
 
+#if DEBUG
+    public static XYZ Normalize(this XYZ c, [CallerMemberName] string caller = "")
+#else
     public static XYZ Normalize(this XYZ c)
+#endif
     {
+#if DEBUG // completely needless
+      Debug.Print("normalizing: {0} called from: {1}", c, caller);
+#endif 
       return new XYZ
       {
         X = c.X / c.Y,
