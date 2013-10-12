@@ -8,18 +8,13 @@ namespace Colorspace
   /// </summary>
   public class Observer
   {
-    public string Name;
-    public int start, end;
-    public double[] x, y, z;
+    internal string Name;
+    internal int start, end;
+    internal double[] x, y, z;
 
-    public int Interval
+    int Interval
     {
       get { return (end - start) / (x.Length - 1);}
-    }
-
-    public int Length
-    {
-      get { return (end - start)/Interval + 1; }
     }
 
     /// <summary>
@@ -27,7 +22,7 @@ namespace Colorspace
     /// </summary>
     /// <param name="i">the absolute index</param>
     /// <returns>the value</returns>
-    public XYZ this[int i]
+    internal XYZ this[int i]
     {
       get
       {
@@ -52,18 +47,13 @@ namespace Colorspace
   /// </summary>
   public class Illuminant
   {
-    public string Name;
-    public int start, end;
-    public double[] s;
-    
-    public int Interval
+    internal string Name;
+    internal int start, end;
+    internal double[] s;
+
+    int Interval
     {
       get { return (end - start) / (s.Length - 1); }
-    }
-
-    public int Length
-    {
-      get { return (end - start) / Interval + 1; }
     }
 
     /// <summary>
@@ -71,7 +61,7 @@ namespace Colorspace
     /// </summary>
     /// <param name="i">the absolute index</param>
     /// <returns>the value</returns>
-    public double this[int i]
+    internal double this[int i]
     {
       get
       {
