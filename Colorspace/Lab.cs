@@ -1,11 +1,17 @@
 ﻿namespace Colorspace
 {
+  /// <summary>
+  /// Represents the Lab color
+  /// </summary>
   public struct Lab
   {
     // L    [0,   100]
     // a,b  [-128,127]
     public double L, a, b;
 
+    /// <summary>
+    /// The Lab white point
+    /// </summary>
     public static readonly Lab WhitePoint = new Lab {L = 100 };
 
     public override string ToString()

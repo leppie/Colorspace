@@ -85,6 +85,9 @@ namespace Colorspace
     }
   }
 
+  /// <summary>
+  /// The whitepoint locus
+  /// </summary>
   public enum Locus
   {
     Daylight,
@@ -160,12 +163,6 @@ namespace Colorspace
     /// Gives the planckian locus with a CIE1931_2deg observer at 10K intervals.
     /// </summary>
     public static readonly Observer PlanckianLocus = CalculatePlanckianLocus(CIE1931_2deg_1nm);
-
-    static readonly Observer[] locii = 
-    { 
-      DaylightLocus, 
-      PlanckianLocus 
-    };
 
     static Observer CalculateDaylightLocus(Observer ob, int interval = 10, int start = 4000, int end = 10000)
     {
@@ -323,16 +320,28 @@ namespace Colorspace
       return x[0];
     }
 
+    [Obsolete("should be private/internal")]
     public static XYZ CalculateWhitePointD65()
     {
       return CalculateWhitePoint(D65_1nm, CIE1931_2deg_1nm);
     }
 
+    /// <summary>
+    /// Calculates the whitepoint of an illuminant with CIE1931 2 deg observer.
+    /// </summary>
+    /// <param name="il">the illuminant</param>
+    /// <returns>the whitepoint</returns>
     public static XYZ CalculateWhitePoint(Illuminant il)
     {
       return CalculateWhitePoint(il, CIE1931_2deg_1nm);
     }
 
+    /// <summary>
+    /// Calculates the whitepoint of an illuminant with an observer.
+    /// </summary>
+    /// <param name="il">the illuminant</param>
+    /// <param name="ob">the observer</param>    
+    /// <returns>the whitepoint</returns>
     public static XYZ CalculateWhitePoint(Illuminant il, Observer ob)
     {
       double x = 0, y = 0, z = 0;
@@ -428,17 +437,27 @@ namespace Colorspace
       return il;
     }
 
+    /// <summary>
+    /// Calculates the closest correlated color temperature to a color
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the color temperature</returns>
     public static double ToClosestCorrelatedColorTemperature(this XYZ c)
     {
       return c.ToClosestColorTemperature(Locus.Planckian, DeltaE.CIE1976);
     }
 
+    /// <summary>
+    /// Calculates the closest correlated color temperature to a color
+    /// </summary>
+    /// <param name="c">the color</param>
+    /// <returns>the color temperature</returns>
     public static double ToClosestCorrelatedColorTemperature(this xyY c)
     {
       return c.ToXYZ().ToClosestCorrelatedColorTemperature();
     }
 
-    [Obsolete("Should be private")]
+    [Obsolete("Should be private/internal")]
     public static xyY ToIluminant(this double cct)
     {
       http://www.brucelindbloom.com/Eqn_T_to_xy.html

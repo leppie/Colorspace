@@ -2,7 +2,7 @@
 
 namespace Colorspace
 {
-  public class Matrix3x3
+  class Matrix3x3
   {
     readonly double[,] data;
 
@@ -30,7 +30,7 @@ namespace Colorspace
     }
   }
 
-  public class Vector3
+  class Vector3
   {
     readonly double[] data;
 

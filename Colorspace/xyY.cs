@@ -1,9 +1,15 @@
-﻿namespace Colorspace
+﻿using System;
+
+namespace Colorspace
 {
+  /// <summary>
+  /// Represent the xyY color
+  /// </summary>
   public struct xyY
   {
     public double x, y, Y;
 
+    [Obsolete("Should be private/internal")]
     public static xyY FromWhitePoint(double x, double y)
     {
       return new xyY

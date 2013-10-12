@@ -16,8 +16,19 @@ namespace Colorspace.Sampling
     }
 #endif
 
+    /// <summary>
+    /// Gets or sets the path of the Argyll binaries
+    /// </summary>
+    /// <value>
+    /// The path.
+    /// </value>
     public static string BinPath { get; set;}
 
+    /// <summary>
+    /// Get the measure from dispcal
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.ArgumentNullException">BinPath;Please set Argyll.BinPath</exception>
     public static Measure GetMeasure()
     {
       if (BinPath == null)
@@ -86,10 +97,21 @@ namespace Colorspace.Sampling
       };
     }
 
+
+    /// <summary>
+    /// Continuously the sample XYZ values
+    /// </summary>
+    /// <returns>the XYZ value</returns>
+    /// <exception cref="System.ArgumentNullException">BinPath;Please set Argyll.BinPath</exception>
     // use with foreach, so it can be disposed
     // thanks @controlflow for this trick :D
     public static IEnumerable<XYZ> ContinuousRead()
     {
+      if (BinPath == null)
+      {
+        throw new ArgumentNullException("BinPath", "Please set Argyll.BinPath");
+      }
+
       var t = new Process
       {
         StartInfo = new ProcessStartInfo

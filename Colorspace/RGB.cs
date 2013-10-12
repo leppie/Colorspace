@@ -1,5 +1,8 @@
 ﻿namespace Colorspace
 {
+  /// <summary>
+  /// Represents the RGB color
+  /// </summary>
   public struct RGB
   {
     public double R, G, B;
