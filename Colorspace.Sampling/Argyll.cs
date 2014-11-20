@@ -8,14 +8,14 @@ using System.Text.RegularExpressions;
 namespace Colorspace.Sampling
 {
   /// <summary>
-  /// Interaction with Argyll, mostly taylored for ColorMunki Display
+  /// Interaction with Argyll, mostly taylored for ColorMunki DisplayType
   /// </summary>
   public static class Argyll
   {
 #if DEBUG
     static Argyll()
     {
-      BinPath = @"D:\dev\Argyll_V1.6.1\spectro\";
+      BinPath = @"D:\dev\Argyll_V1.6.1\bin\";
     }
 #endif
 
@@ -32,7 +32,7 @@ namespace Colorspace.Sampling
     /// </summary>
     /// <returns></returns>
     /// <exception cref="System.ArgumentNullException">BinPath;Please set Argyll.BinPath</exception>
-    public static Measure GetMeasure(int displaynr = 1, Display sc = Display.LCD_CCFL)
+    public static Measure GetMeasure(int displaynr = 1, DisplayType sc = DisplayType.LCD_CCFL)
     {
       if (BinPath == null)
       {
@@ -79,7 +79,7 @@ namespace Colorspace.Sampling
 
       var xyz = c.ToXYZ();
 
-      var rgb = xyz.ToRGB();
+      var rgb = xyz.TosRGB();
 
       return new Measure
       {
@@ -107,7 +107,7 @@ namespace Colorspace.Sampling
     /// <exception cref="System.ArgumentNullException">BinPath;Please set Argyll.BinPath</exception>
     /// <remarks>Make sure to dispose the enumerator if not using foreach</remarks>
     // thanks @controlflow for this trick :D
-    public static IEnumerable<XYZ> ContinuousRead(Display sc = Display.LCD_CCFL)
+    public static IEnumerable<XYZ> ContinuousRead(DisplayType sc = DisplayType.LCD_CCFL, string inttime = "0.2")
     {
       if (BinPath == null)
       {
@@ -127,6 +127,8 @@ namespace Colorspace.Sampling
           UseShellExecute = false,
         }
       };
+
+      t.StartInfo.EnvironmentVariables["I1D3_DEF_INT_TIME"] = inttime;
 
       try
       {

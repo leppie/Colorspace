@@ -42,17 +42,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bobyqa.cs" />
+    <Compile Include="ChromaticAdaptation.cs" />
+    <Compile Include="Companding.cs" />
     <Compile Include="Conversion.cs" />
+    <Compile Include="Coordinates.cs" />
     <Compile Include="Difference.cs" />
     <Compile Include="Illuminant.cs" />
     <Compile Include="Observer.cs" />
-    <Compile Include="Sampling\Display.cs" />
     <Compile Include="Scaling.cs" />
-    <Compile Include="Sampling\Argyll.cs" />
     <Compile Include="Spectral.Tables.cs" />
     <Compile Include="Lab.cs" />
     <Compile Include="Matrix.cs" />
-    <Compile Include="Sampling\Measure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RGB.cs" />
     <Compile Include="Spectral.cs" />

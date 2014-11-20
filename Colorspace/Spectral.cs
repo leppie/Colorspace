@@ -71,6 +71,8 @@ namespace Colorspace
 
       return r;
     }
+
+#if OLD
     
     /// <summary>
     /// Gives the daylight locus with a CIE1931_2deg observer at 10K intervals.
@@ -145,6 +147,8 @@ namespace Colorspace
 
       return locus;
     }
+
+#endif
 
     static Lab ToUCS(this XYZ c)
     {
@@ -304,6 +308,8 @@ namespace Colorspace
     /// <returns>the illuminant</returns>
     public static Illuminant Daylight(double ct)
     {
+      http://www.brucelindbloom.com/Eqn_DIlluminant.html
+
 #pragma warning disable 618
       var il = ct.ToIluminant();
 #pragma warning restore 618
@@ -335,6 +341,8 @@ namespace Colorspace
     /// <returns>the illuminant</returns>
     public static Illuminant Planckian(double ct)
     {
+      http://www.brucelindbloom.com/Eqn_Blackbody.html
+
       if (ct < 1.0 || ct > 1e6)	/* set some arbitrary limits */
         return null;
 

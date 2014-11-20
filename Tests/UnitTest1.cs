@@ -16,31 +16,36 @@ namespace Tests
       // not really a unit test, but a test runner..
       // I am not planning on testing floating point yet...
 
+      /*
       var xxx = Argyll.GetMeasure(2);
-      xxx = Argyll.GetMeasure(2, Display.LCD_White_LED);
+      xxx = Argyll.GetMeasure(2, DisplayType.LCD_White_LED);
 
       foreach (var mstr in Argyll.ContinuousRead())
       {
         break;
       }
 
-      foreach (var mstr in Argyll.ContinuousRead(Display.LCD_White_LED))
+      foreach (var mstr in Argyll.ContinuousRead(DisplayType.LCD_White_LED))
       {
         break;
       }
+       */
 
 
       var wpr = Spectral.CalculateWhitePointD65();
 
       var awpr = XYZ.D65_Whitepoint; //new XYZ { X = 0.950470558654, Y = 1.000000000000, Z = 1.088828736396 };
+      var sawpr = awpr.Scale(awpr, XYZ.D50_Whitepoint);
+      var arwpxy = awpr.ToxyY();
 
-      var abwd = awpr.ToLab(awpr).DifferenceToWhitePoint();
+      var abwd = wpr.ToLab(awpr).DifferenceToWhitePoint();
 
       var diff = wpr.ScaleToD50().DifferenceToWhitePoint();
       var adiff = awpr.ScaleToD50().DifferenceToWhitePoint();
 
 
-      var rrgb = awpr.ToRGB();
+      var rrgb = awpr.TosRGB();
+      awpr = rrgb.ToXYZ();
 
       var rct = awpr.ToClosestDaylightColorTemperature();
       var cpct = awpr.ToClosestPlanckianColorTemperature();
@@ -76,14 +81,14 @@ namespace Tests
       //6894K/6983K
       var c = new xyY(0.3073, 0.3209);
       var xyz = c.ToXYZ();
-      var rgb = c.ToRGB();
+      var rgb = c.TosRGB();
       var t = c.ToClosestCorrelatedColorTemperature();
       var XYZ1 = rgb.ToXYZ();
 
       //6504K
       c = new xyY(0.312713, 0.329016);
       xyz = c.ToXYZ();
-      rgb = c.ToRGB();
+      rgb = c.TosRGB();
       t = c.ToClosestCorrelatedColorTemperature();
       XYZ1 = rgb.ToXYZ();
 
@@ -101,7 +106,7 @@ namespace Tests
       c = new xyY { x = 0.31272660439158345, y = 0.32902315240275221, Y = 1.000000 }; // closest
 
       xyz = c.ToXYZ();
-      rgb = c.ToRGB();
+      rgb = c.TosRGB();
       t = c.ToClosestCorrelatedColorTemperature();
       XYZ1 = rgb.ToXYZ();
 
@@ -110,7 +115,7 @@ namespace Tests
 
       c = new XYZ {X = 0.950543, Y = 1.0, Z = 1.089303}.ToxyY();
       xyz = c.ToXYZ();
-      rgb = c.ToRGB();
+      rgb = c.TosRGB();
       t = c.ToClosestCorrelatedColorTemperature();
       XYZ1 = rgb.ToXYZ();
 
@@ -120,14 +125,14 @@ namespace Tests
       c = new XYZ {X = 0.9504700, Y = 1, Z = 1.0888300}.ToxyY();
 
       xyz = c.ToXYZ();
-      rgb = c.ToRGB();
+      rgb = c.TosRGB();
       t = c.ToClosestCorrelatedColorTemperature();
       XYZ1 = rgb.ToXYZ();
 
       //6429K/6382K
       c = new xyY(0.3137, 0.3318);
       xyz = c.ToXYZ();
-      rgb = c.ToRGB();
+      rgb = c.TosRGB();
       t = c.ToClosestCorrelatedColorTemperature();
       XYZ1 = rgb.ToXYZ();
 

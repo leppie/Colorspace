@@ -13,14 +13,14 @@ namespace Colorspace
     static readonly XYZ LAB_DEFAULT_WP = XYZ.D50_Whitepoint;
 
     /// <summary>
-    /// Converts xyY to RGB
+    /// Converts xyY to sRGB
     /// </summary>
     /// <param name="c">the color</param>
     /// <param name="clip">true if clipping should be applied</param>
     /// <returns>the converted color</returns>
-    public static RGB ToRGB(this xyY c, bool clip = false)
+    public static RGB TosRGB(this xyY c, bool clip = false)
     {
-      return c.ToXYZ().ToRGB(clip);
+      return c.ToXYZ().TosRGB(clip);
     }
 
     /// <summary>
@@ -38,15 +38,8 @@ namespace Colorspace
     /// </summary>
     /// <param name="c">the color</param>
     /// <returns>the normalized color</returns>
-#if DEBUG
-    public static Lab Normalize(this Lab c, [CallerMemberName] string caller = "nowhere")
-#else
     public static Lab Normalize(this Lab c)
-#endif
     {
-#if DEBUG
-      Debug.Print("normalizing: {0} called from: {1}", c, caller);
-#endif
       return new Lab
       {
         L = 100,
@@ -177,29 +170,31 @@ namespace Colorspace
       };
     }
 
+    public static RGB TosRGB(this XYZ c, bool clip = false)
+    {
+      return c.TosRGB(XYZ.D65_Whitepoint, clip);
+    }
+
     /// <summary>
-    /// Converts XYZ to RGB
+    /// Converts XYZ to sRGB
     /// </summary>
     /// <param name="c">the color</param>
     /// <param name="clip">true if clipping to the output should be applied</param>
     /// <returns>the converted color</returns>
-    public static RGB ToRGB(this XYZ c, bool clip = false)
+    public static RGB TosRGB(this XYZ c, XYZ wp, bool clip = false)
     {
       http://www.brucelindbloom.com/Eqn_XYZ_to_RGB.html
+      
+      c = c.Normalize();
 
       if (c.Equals(default(XYZ))) // completely black
       {
         return new RGB();
       }
 
-      var M = new double[,]
-      {
-        {3.2404542, -1.5371385, -0.4985314},
-        {-0.9692660, 1.8760108, 0.0415560},
-        {0.0556434, -0.2040259, 1.0572252}
-      };
+      var M = CreateMatrix(Coordinates.sRGB, wp, true);
 
-      RGB rgbs = (Vector3)c * M; 
+      RGB rgbs = c * M; 
 
       rgbs = sRGB.Compand(rgbs);
 
@@ -211,12 +206,50 @@ namespace Colorspace
       return rgbs;
     }
 
+    static Matrix3x3 CreateMatrix(Coordinates c, XYZ wp, bool invert)
+    {
+      var r = c.R.ToXYZ();
+      var g = c.G.ToXYZ();
+      var b = c.B.ToXYZ();
+
+      Matrix3x3 M = new double[,]
+      {
+        {r.X, g.X, b.X },
+        {r.Y, g.Y, b.Y },
+        {r.Z, g.Z, b.Z },
+      };
+
+      M = M.Invert();
+
+      RGB S = M * wp;
+
+      Matrix3x3 result = new double[,]
+      {
+        {S.R * r.X, S.G * g.X, S.B * b.X},
+        {S.R * r.Y, S.G * g.Y, S.B * b.Y},
+        {S.R * r.Z, S.G * g.Z, S.B * b.Z},
+      };
+
+      if (invert)
+      {
+        result = result.Invert();
+      }
+
+      return result;
+    }
+
+    public static XYZ ToXYZ(this RGB c)
+    {
+      return c.ToXYZ(XYZ.D65_Whitepoint);
+    }
+
     /// <summary>
-    /// Convertes RGB to XYZ
+    /// Convertes sRGB to XYZ
     /// </summary>
     /// <param name="c">the color</param>
+    /// <param name="wp">the white point</param>
     /// <returns>the converted color</returns>
-    public static XYZ ToXYZ(this RGB c)
+    public static XYZ ToXYZ(this RGB c, XYZ wp)
     {
       http://www.brucelindbloom.com/Eqn_RGB_to_XYZ.html
 
@@ -225,16 +258,11 @@ namespace Colorspace
         return new XYZ();
       }
 
-      var M = new double[,]
-      {
-        {0.4124564,  0.3575761,  0.1804375},
-        {0.2126729,  0.7151522,  0.0721750},
-        {0.0193339,  0.1191920,  0.9503041}
-      };
+      var M = CreateMatrix(Coordinates.sRGB, wp, false);
 
       c = sRGB.InverseCompand(c);
 
-      XYZ xyz = (Vector3)c * M;
+      XYZ xyz = c * M;
 
       return xyz;
     }
@@ -260,15 +288,8 @@ namespace Colorspace
     /// </summary>
     /// <param name="c">the color</param>
     /// <returns>the normalized color</returns>
-#if DEBUG
-    public static XYZ Normalize(this XYZ c, [CallerMemberName] string caller = "")
-#else
     public static XYZ Normalize(this XYZ c)
-#endif
     {
-#if DEBUG // completely needless
-      Debug.Print("normalizing: {0} called from: {1}", c, caller);
-#endif 
       return new XYZ
       {
         X = c.X / c.Y,

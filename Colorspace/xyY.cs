@@ -9,7 +9,7 @@ namespace Colorspace
   {
     public double x, y, Y;
 
-    public xyY(double x, double y, double Y = 1)
+    public xyY(double x, double y, double Y = 100)
     {
       this.x = x;
       this.y = y;
@@ -20,6 +20,9 @@ namespace Colorspace
     {
       get { return 1 - x - y; }
     }
+
+    public static readonly xyY D65_WhitePoint = XYZ.D65_Whitepoint.ToxyY();
+    public static readonly xyY D50_WhitePoint = XYZ.D50_Whitepoint.ToxyY();
 
     public override string ToString()
     {

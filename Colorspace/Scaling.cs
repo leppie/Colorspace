@@ -34,12 +34,12 @@
 
     public static XYZ ScaleToD50(this XYZ c, bool bradford = true)
     {
-      return (Vector3)c * (bradford ? D65_D50_Bradford : D65_D50_Linear);
+      return c * (bradford ? D65_D50_Bradford : D65_D50_Linear);
     }
 
     public static XYZ ScaleToD65(this XYZ c, bool bradford = true)
     {
-      return (Vector3)c * (bradford ? D50_D65_Bradford : D50_D65_Linear);
+      return c * (bradford ? D50_D65_Bradford : D50_D65_Linear);
     }
   }
 }

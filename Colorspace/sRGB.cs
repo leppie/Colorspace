@@ -4,21 +4,9 @@ namespace Colorspace
 {
   public static class sRGB
   {
-    public static readonly xyY Red = new xyY { x = 0.6400, y = 0.3300, Y = 0.2126 };
-    public static readonly xyY Green = new xyY { x = 0.3000, y = 0.6000, Y = 0.7153 };
-    public static readonly xyY Blue = new xyY { x = 0.1500, y = 0.0600, Y = 0.0721 };
-
-    public static readonly xyY D65_WhitePoint = XYZ.D65_Whitepoint.ToxyY();
-    public static readonly xyY D50_WhitePoint = XYZ.D50_Whitepoint.ToxyY();
-
     public static RGB Compand(RGB c)
     {
-      return new RGB
-      {
-        R = Compand(c.R),
-        G = Compand(c.G),
-        B = Compand(c.B)
-      };
+      return (Vector3)c * Compand;
     }
 
     static double Compand(double c)
@@ -32,12 +20,7 @@ namespace Colorspace
 
     public static RGB InverseCompand(RGB c)
     {
-      return new RGB
-      {
-        R = InverseCompand(c.R),
-        G = InverseCompand(c.G),
-        B = InverseCompand(c.B)
-      };
+      return (Vector3)c * InverseCompand;
     }
 
     static double InverseCompand(double c)

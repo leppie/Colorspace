@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Colorspace.Sampling\Colorspace.Sampling.csproj">
+      <Project>{3c2f8925-cb36-4edd-80fb-d7d830c2327d}</Project>
+      <Name>Colorspace.Sampling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Colorspace\Colorspace.csproj">
       <Project>{2ca78f26-b665-4bae-9c90-5ec52d116a08}</Project>
       <Name>Colorspace</Name>

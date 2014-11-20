@@ -10,6 +10,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plotter", "Plotter\Plotter.csproj", "{DD925249-4821-4826-9759-7AA570697802}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7510EC76-B5F6-43CD-987B-6BE38A26CCDA}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colorspace.Sampling", "Colorspace.Sampling\Colorspace.Sampling.csproj", "{3C2F8925-CB36-4EDD-80FB-D7D830C2327D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +35,14 @@ Global
 		{2CA78F26-B665-4BAE-9C90-5EC52D116A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CA78F26-B665-4BAE-9C90-5EC52D116A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CA78F26-B665-4BAE-9C90-5EC52D116A08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD925249-4821-4826-9759-7AA570697802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD925249-4821-4826-9759-7AA570697802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD925249-4821-4826-9759-7AA570697802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD925249-4821-4826-9759-7AA570697802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C2F8925-CB36-4EDD-80FB-D7D830C2327D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2F8925-CB36-4EDD-80FB-D7D830C2327D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2F8925-CB36-4EDD-80FB-D7D830C2327D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2F8925-CB36-4EDD-80FB-D7D830C2327D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

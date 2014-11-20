@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Colorspace.Sampling
+﻿namespace Colorspace.Sampling
 {
   /// <summary>
-  /// Display settings for ColorMunki Display
+  /// DisplayType settings for ColorMunki DisplayType
   /// </summary>
-  public enum Display
+  public enum DisplayType
   {
     NonRefresh = 'n',
     Refresh = 'r',
-    CRT = '1',
+    CRT = 'c',
+    CRT1 = '1',
     LCD_CCFL = '2',
     LCD_CCFL_WideGamut,
     LCD_RGB_LED,
