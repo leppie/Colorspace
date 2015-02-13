@@ -3,6 +3,8 @@ Colorspace
 
 Experiments and learning about how colors and shit work.
 
+Most equations have been implemented from information @ http://www.brucelindbloom.com
+
 Could be used as a general color library too.
 
 Inspired by Argyll (http://argyllcms.com/) after getting a colorimeter and finding such great calibration software (and wanting to find out what the numbers mean).
